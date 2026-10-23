@@ -4,184 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ordered thought</title>
-<meta name="description" content="mind.arnavraja.in: writing by Arnav Raja on ten ideas, software he has built, and what he studies about AI, machine learning, mathematics and philosophy of mind.">
+<meta name="description" content="mind.arnavraja.in, part of arnavraja.in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Same system as arnavraja.in: paper and ink, one accent per part of the domain. */
-:root {
-  --paper: #F2F3EF; --paper-2: #E8EAE4; --ink: #16211F; --muted: #56625D; --rule: #D1D6CF;
-  --accent: #3F6B52; --mark: #F2B632;
-  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --paper: #111513; --paper-2: #181D1A; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #9CCBAE; --mark: #E0A626; color-scheme: dark; }
-}
-:root[data-theme="dark"] { --paper: #111513; --paper-2: #181D1A; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #9CCBAE; --mark: #E0A626; color-scheme: dark; }
+:root { --paper: #F2F3EF; --ink: #16211F; --muted: #56625D; --rule: #D1D6CF; --accent: #3F6B52;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #111513; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #9CCBAE; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #111513; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #9CCBAE; color-scheme: dark; }
 * { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.125rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-.wrap { max-width: 64rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.inner { padding-left: clamp(0px, 3vw, 2rem); padding-right: clamp(0px, 3vw, 2rem); }
-header.top { padding-block: 1.5rem; }
-.top .inner { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; align-items: baseline; justify-content: space-between; }
-.wordmark { font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
-.wordmark b { color: var(--accent); font-weight: 800; }
-.wordmark span { color: var(--muted); font-weight: 400; }
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
-nav a { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); text-decoration: none; }
-nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.35em; }
-
-.stage { position: relative; margin-top: 0.5rem; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); }
-.stage canvas { display: block; width: 100%; height: clamp(14rem, 34vw, 22rem); touch-action: pan-y; }
-.stage .hint { position: absolute; right: 0.6rem; bottom: 0.5rem; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); background: var(--paper); padding: 0.1rem 0.4rem; margin: 0; }
-.hero { padding-block: 2rem 1rem; }
-.label { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 0 0 0.6rem; }
-h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.8rem, 8vw, 5.6rem); line-height: 0.92; letter-spacing: -0.04em; margin: 0; text-wrap: balance; }
-h1 em { font-style: normal; color: var(--accent); }
-.lede { max-width: 38rem; font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 1.4rem 0 0; text-wrap: pretty; }
-
-.balance { display: flex; height: 4px; margin: 2.5rem 0 0; }
-.balance i { background: var(--ink); }
-.balance i + i { background: var(--mark); }
-section { padding-block: clamp(2rem, 5vw, 3.5rem); border-top: 1px solid var(--rule); }
-.balance + section { border-top: 0; }
-.sec { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); gap: 1rem 2.5rem; align-items: start; }
-.sec > .label { padding-top: 0.55rem; }
-.sec > * { min-width: 0; }
-h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 0.8rem; text-wrap: balance; }
-.k { display: flex; align-items: center; gap: 0.5rem; }
-.k::before { content: ""; width: 0.6rem; height: 0.6rem; background: var(--ink); flex: none; }
-.in .k::before { background: var(--mark); }
-p { margin: 0 0 1rem; max-width: 40rem; }
-.shelf { list-style: none; margin: 1.25rem 0 0; padding: 0; border-top: 1px solid var(--ink); max-width: 40rem; }
-.shelf li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; padding-block: 0.8rem; border-bottom: 1px dashed var(--rule); align-items: baseline; }
-.shelf .t { font-family: var(--display); font-weight: 600; font-size: 1.05rem; }
-.shelf .m { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
-.empty { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); border: 1px dashed var(--rule); padding: 1rem 1.1rem; max-width: 40rem; margin: 1.25rem 0 0; }
-
-.ideas { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.ideas a { display: block; background: var(--paper); padding: 0.9rem 1rem; text-decoration: none; color: var(--ink); height: 100%; }
-.ideas a:hover { background: var(--paper-2); }
-.ideas li:last-child { grid-column: 1 / -1; }
-.ideas b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.05rem; }
-.ideas span { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
-.stages > div { border-top: 1px solid var(--ink); padding-top: 0.9rem; min-width: 0; }
-.stages h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; margin: 0 0 0.3rem; }
-.stages h3 a { color: var(--ink); text-decoration: none; }
-.stages h3 a:hover { color: var(--accent); }
-.stages p { font-size: 0.95rem; color: var(--muted); }
-.works { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 1rem; max-width: 40rem; }
-.work { display: grid; gap: 0.25rem; padding: 1.1rem 1.2rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); text-decoration: none; color: var(--ink); background: var(--paper); }
-.work:hover { background: var(--paper-2); }
-.w-meta { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
-.w-title { font-family: var(--display); font-weight: 700; font-size: 1.35rem; letter-spacing: -0.015em; }
-.w-text { font-size: 1rem; color: var(--muted); }
-.w-go { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); margin-top: 0.35rem; }
-.w-go::after { content: " \2192"; }
-.sub-h { font-family: var(--display); font-weight: 600; font-size: 1.25rem; margin: 2.25rem 0 0; }
-
-footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-block: 1.75rem 2.5rem; }
-footer .inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
-footer a { color: var(--muted); }
-footer a:hover { color: var(--ink); }
-@media (max-width: 720px) {
-  .sec { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
-  .sec > .label { padding-top: 0; }
-  .stages { grid-template-columns: minmax(0, 1fr); }
-  .shelf li { grid-template-columns: minmax(0, 1fr); }
-}
+html, body { height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--display); -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { width: 100%; max-width: 60rem; margin: 0 auto; padding-inline: clamp(0px, 3vw, 2rem); }
+.label { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin: 0 0 1rem; }
+.label b { color: var(--accent); font-weight: 500; }
+h1 { font-weight: 800; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; letter-spacing: -0.045em; margin: 0; }
+.home { display: inline-block; margin-top: 2.25rem; font-family: var(--mono); font-size: 0.9rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 0.15rem; }
+.home:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.home:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="inner"><a class="wordmark" href="https://mind.arnavraja.in"><b>mind</b><span>.arnavraja.in</span></a><nav aria-label="Parts of arnavraja.in"><ul><li><a href="https://arnavraja.in">home</a></li><li><a href="https://mind.arnavraja.in" aria-current="page">mind</a></li><li><a href="https://sound.arnavraja.in">sound</a></li><li><a href="https://colour.arnavraja.in">colour</a></li></ul></nav></div></header>
 <main>
-<div class="inner"><div class="stage" aria-hidden="true"><canvas id="motif"></canvas><p class="hint">move across: you join the network, and the line learns from you</p></div><div class="hero"><p class="label">mind.arnavraja.in &middot; Writing, software, AI, mathematics, philosophy</p><h1>Ordered thought</h1><p class="lede">Writing is thought put in order for a reader. Software is thought put in order for a machine. Study is taking in the ordered thought of others. All three live here.</p></div></div><div class="inner"><div class="balance" aria-hidden="true"><i style="flex:1"></i><i style="flex:1"></i></div></div><section class="out" id="writing"><div class="inner sec"><p class="label k">Written</p><div><h2>From a point to a plane</h2><p>Essays and notes, sorted by how far an idea has grown rather than by date, and filed under the ten ideas on the shelf.</p><div class="stages"><div><p class="label">A few lines</p><h3><a href="/tag/points/">Points</a></h3><p>Fragments, questions and things I noticed. No length yet, only position.</p></div><div><p class="label">A few pages</p><h3><a href="/tag/lines/">Lines</a></h3><p>Notes that are going somewhere: reading notes and ideas in progress.</p></div><div><p class="label">Finished</p><h3><a href="/tag/planes/">Planes</a></h3><p>Essays worked through in every direction, which I still stand behind.</p></div></div><p class="empty">No pieces published yet. The first ones are being written.</p><h3 class="sub-h">Ten ideas</h3><ul class="ideas"><li><a href="/tag/philosophy/"><b>First questions</b><span>Philosophy</span></a></li><li><a href="/tag/mathematics/"><b>Structure</b><span>Mathematics</span></a></li><li><a href="/tag/physics/"><b>Matter and law</b><span>Physics</span></a></li><li><a href="/tag/computing/"><b>Mechanised thought</b><span>Computer science, AI and machine learning</span></a></li><li><a href="/tag/economy/"><b>Scarcity</b><span>Economics</span></a></li><li><a href="/tag/politics/"><b>Power and consent</b><span>Politics</span></a></li><li><a href="/tag/music/"><b>Ordered time</b><span>Music</span></a></li><li><a href="/tag/art/"><b>Ordered space</b><span>Visual art</span></a></li><li><a href="/tag/ideas/"><b>Connection</b><span>Connections</span></a></li><li><a href="/tag/play/"><b>Play</b><span>Fun stuff</span></a></li></ul></div></div></section><section class="out" id="built"><div class="inner sec"><p class="label k">Built</p><div><h2>Software and experiments</h2><p>Ambitious, full-scale software I have built and made public, each with what it does and where to get it. Alongside them, the occasional experiment run to check that I really understand something I have been reading.</p><ul class="works"><li><a class="work" href="/ashwater/"><span class="w-meta">Game &middot; plays in the browser</span><span class="w-title">Ashwater: The Bell Debt</span><span class="w-text">An original dark fantasy role-playing game. Best on a computer, with keyboard and mouse.</span><span class="w-go">Play Ashwater</span></a></li></ul></div></div></section><section class="in"><div class="inner sec"><p class="label k">Studied</p><div><h2>Papers, books and courses</h2><p>Each entry is something I have read or worked through on artificial intelligence, machine learning, mathematics or philosophy of mind, with my notes on what it argues and what stayed with me.</p><p class="empty">No notes published yet. The first ones are being written.</p></div></div></section>
+  <p class="label"><b>mind</b>.arnavraja.in</p>
+  <h1>Ordered thought</h1>
+  <a class="home" href="https://arnavraja.in">arnavraja.in</a>
 </main>
-<footer><div class="inner"><span>&copy; <span class="yr">2026</span> Arnav Raja &middot; mind.arnavraja.in</span><ul><li><a href="https://arnavraja.in">arnavraja.in</a></li><li><a href="https://sound.arnavraja.in">sound</a></li><li><a href="https://colour.arnavraja.in">colour</a></li></ul></div></footer>
-</div>
-<script>
-
-function motif(draw, opts) {
-  var cv = document.getElementById('motif'); if (!cv || !cv.getContext) return;
-  var ctx = cv.getContext('2d'), W = 0, H = 0, P = null, raf = 0, visible = true, t0 = performance.now();
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var root = document.documentElement;
-  function col(n) { return getComputedStyle(root).getPropertyValue(n).trim(); }
-  function size() {
-    var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-    W = r.width; H = r.height; cv.width = Math.round(W * d); cv.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
-    if (opts && opts.resize) opts.resize(W, H); frame();
-  }
-  function frame(now) {
-    raf = 0;
-    ctx.clearRect(0, 0, W, H);
-    var more = draw(ctx, W, H, P, ((now || performance.now()) - t0) / 1000, { ink: col('--ink'), muted: col('--muted'), rule: col('--rule'), accent: col('--accent'), paper: col('--paper'), mark: col('--mark') }, reduce);
-    if ((more || (opts && opts.animate && !reduce)) && visible) raf = requestAnimationFrame(frame);
-  }
-  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
-  cv.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(); P = { x: e.clientX - r.left, y: e.clientY - r.top }; kick(); });
-  cv.addEventListener('pointerdown', function (e) { var r = cv.getBoundingClientRect(); P = { x: e.clientX - r.left, y: e.clientY - r.top }; kick(); });
-  cv.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { P = null; kick(); } });
-  if (window.IntersectionObserver) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(cv);
-  if (window.ResizeObserver) new ResizeObserver(size).observe(cv); else window.addEventListener('resize', size);
-  if (window.matchMedia) { var mq = matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', kick); }
-  size();
-}
-function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
-
-(function () {
-  var r = rng(3), N = 40, nodes = [], cur = null;
-  for (var i = 0; i < N; i++) nodes.push([r(), r(), (r() - 0.5) * 0.018, (r() - 0.5) * 0.018]);
-  function fit(pts) {
-    var D = 4, A = [], b = [];
-    for (var i = 0; i < D; i++) { A.push(new Array(D).fill(0)); b.push(0); }
-    pts.forEach(function (p) { var w = p[2] || 1, xs = [1]; for (var k = 1; k < 2 * D; k++) xs.push(xs[k - 1] * (p[0] - 0.5));
-      for (var i = 0; i < D; i++) { b[i] += w * xs[i] * p[1]; for (var j = 0; j < D; j++) A[i][j] += w * xs[i + j]; } });
-    for (var c = 0; c < D; c++) { var m = c; for (var rr = c + 1; rr < D; rr++) if (Math.abs(A[rr][c]) > Math.abs(A[m][c])) m = rr;
-      var t = A[c]; A[c] = A[m]; A[m] = t; var tb = b[c]; b[c] = b[m]; b[m] = tb;
-      for (var rr = c + 1; rr < D; rr++) { var f = A[rr][c] / A[c][c]; for (var k = c; k < D; k++) A[rr][k] -= f * A[c][k]; b[rr] -= f * b[c]; } }
-    var x = new Array(D).fill(0);
-    for (var i = D - 1; i >= 0; i--) { var s = b[i]; for (var j = i + 1; j < D; j++) s -= A[i][j] * x[j]; x[i] = s / A[i][i]; }
-    return x;
-  }
-  function ev(c, x) { var s = 0, p = 1; for (var i = 0; i < c.length; i++) { s += c[i] * p; p *= (x - 0.5); } return s; }
-  motif(function (g, W, H, P, t, C, reduce) {
-    var pts = nodes.map(function (n) { var x = n[0] + (reduce ? 0 : n[2] * t), y = n[1] + (reduce ? 0 : n[3] * t);
-      x = ((x % 2) + 2) % 2; y = ((y % 2) + 2) % 2; if (x > 1) x = 2 - x; if (y > 1) y = 2 - y; return [0.03 + x * 0.94, 0.06 + y * 0.88]; });
-    var R = Math.min(120, W * 0.15) / W;
-    g.lineWidth = 1;
-    for (var i = 0; i < N; i++) for (var j = i + 1; j < N; j++) {
-      var dx = (pts[i][0] - pts[j][0]) * W, dy = (pts[i][1] - pts[j][1]) * H, d = Math.sqrt(dx * dx + dy * dy), Rp = R * W;
-      if (d < Rp) { g.strokeStyle = C.muted; g.globalAlpha = (1 - d / Rp) * 0.5; g.beginPath(); g.moveTo(pts[i][0] * W, pts[i][1] * H); g.lineTo(pts[j][0] * W, pts[j][1] * H); g.stroke(); }
-    }
-    if (P) for (var i = 0; i < N; i++) {
-      var dx = pts[i][0] * W - P.x, dy = pts[i][1] * H - P.y, d = Math.sqrt(dx * dx + dy * dy), Rp = R * W * 1.4;
-      if (d < Rp) { g.strokeStyle = C.accent; g.globalAlpha = 1 - d / Rp; g.lineWidth = 1.5; g.beginPath(); g.moveTo(P.x, P.y); g.lineTo(pts[i][0] * W, pts[i][1] * H); g.stroke(); }
-    }
-    var obs = pts.slice(); if (P) obs.push([P.x / W, P.y / H, 6]);
-    var target = fit(obs); if (!cur) cur = target.slice();
-    for (var k = 0; k < cur.length; k++) cur[k] += (target[k] - cur[k]) * 0.12;
-    g.globalAlpha = 1; g.strokeStyle = C.accent; g.lineWidth = 2.5; g.beginPath();
-    for (var u = 0; u <= 1.0001; u += 0.005) { var yy = ev(cur, u) * H; if (u === 0) g.moveTo(u * W, yy); else g.lineTo(u * W, yy); }
-    g.stroke();
-    g.fillStyle = C.ink; pts.forEach(function (p) { g.beginPath(); g.arc(p[0] * W, p[1] * H, 2.6, 0, 7); g.fill(); });
-    if (P) { g.fillStyle = C.accent; g.beginPath(); g.arc(P.x, P.y, 5.5, 0, 7); g.fill(); }
-    return false;
-  }, { animate: true });
-})();
-
-document.querySelectorAll(".yr").forEach(function(e){e.textContent=new Date().getFullYear();});
-</script>
 </body>
 </html>
